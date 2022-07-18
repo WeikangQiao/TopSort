@@ -81,7 +81,7 @@ Note, the bitstreams generated each time may vary from each other in terms of th
 
 
 ## Related Publication
-+ Weikang Qiao, Licheng Guo, Zhenman Fang, MAu-Chung Frank Chang, Jason Cong.
++ Weikang Qiao, Licheng Guo, Zhenman Fang, Mau-Chung Frank Chang, Jason Cong.
   [TopSort: A High-Performance Two-Phase Sorting Accelerator Optimized on HBM-based FPGAs].
   In FCCM, 2022.
   [[PDF]](https://arxiv.org/pdf/2205.07991.pdf)
