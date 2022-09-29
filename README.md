@@ -14,6 +14,7 @@ You may need to download the Vitis_Accel github directory from [Xilinx Github](h
 | **Folder/File** | **Description** |
 | --- | --- |
 | [benchmark](./benchmark) | This folder contains the random data generator. The generated benchmark will also be here. |
+| [cocotb_sim](./cocotb_sim/) | This folder contains the cocotb-based simulation files for fast simulation using Synopsys VCS. |
 | [constraints](./constraints) | This folder contains all the configuration and constraints files for HBM channel mapping and PnR process. |
 | [scripts](./scripts) | This folder contains the scripts to package the .xo for the kernel |
 | [src](./src) | This folder contains the SystemVerilog source code and the host code |
@@ -42,10 +43,42 @@ CMD_ARGS = $(BUILD_DIR)/merge_sort_complete.xclbin ./benchmark/data_cmpl_kv_1^15
 ...
 ```
 
-To run hardware emulation, please type
+To run hardware simulation, please type
 
 ```bash
 make run TARGET=hw_emu DEVICE=<FPGA platform>
+```
+
+### Cocotb simulation
+
+It usually takes long time (e.g., up to one hour) for Xilinx Vitis to compile the design and do the hardware simulation, even if we only change one line of the source code. To reduce the development and simulation time, we also support a much faster [cocotb](https://docs.cocotb.org/en/stable/)-based simulation flow, which uses python as the front end to provide stimulus to the hardware and uses Synopsys VCS as the back end to generate the waveform. 
+
+We can explicitly simulate the two phases of Topsort, respectively. 
+1. To simulate the first phase of TopSort: 
+We need to add the following line in [Makefile](./cocotb_sim/sim/Makefile):
+
+```bash
+COMPILE_ARGS += +define+TEST_PHASE_1
+```
+
+We also need to uncomment line 439 in [test_merge_sort_complete.py](./cocotb_sim/sim/test_merge_sort_complete.py):
+
+```bash
+#factory = TestFactory(run_test_phase1)
+```
+
+2. To simulate the second phase of TopSort: 
+We need to add the following line in [Makefile](./cocotb_sim/sim/Makefile):
+
+```bash
+COMPILE_ARGS += +define+TEST_PHASE_2
+```
+
+We also need to uncomment line 440 or line 441 in [test_merge_sort_complete.py](./cocotb_sim/sim/test_merge_sort_complete.py), where *run_test_phase2_uniform* runs the experiment that contains uniformly distributed data and *run_test_phase2_same* runs the experiment that contains data with the same key:
+
+```bash
+#factory = TestFactory(run_test_phase2_uniform)
+#factory = TestFactory(run_test_phase2_same)
 ```
 
 ### On-board test
