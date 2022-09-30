@@ -68,6 +68,13 @@ We also need to uncomment line 439 in [test_merge_sort_complete.py](./cocotb_sim
 #factory = TestFactory(run_test_phase1)
 ```
 
+Then we can run the simulation by type the following commands:
+
+```bash
+cd cocotb_sim/sim
+make
+```
+
 After simulation completes, you should see the results as shown below: ![simulation results](./images/simulation.png) 
 
 You may also refer to the *merge_sort_complete.vpd* file to see all the dumped signal waveforms.
@@ -78,6 +85,7 @@ We need to add the following line in [Makefile](./cocotb_sim/sim/Makefile):
 ```bash
 COMPILE_ARGS += +define+TEST_PHASE_2
 ```
+
 
 We also need to uncomment line 440 or line 441 in [test_merge_sort_complete.py](./cocotb_sim/sim/test_merge_sort_complete.py), where *run_test_phase2_uniform* runs the experiment that contains uniformly distributed data and *run_test_phase2_same* runs the experiment that contains data with the same key:
 
@@ -122,4 +130,3 @@ Note, the bitstreams generated each time may vary from each other in terms of th
 + Weikang Qiao, Licheng Guo, Zhenman Fang, Mau-Chung Frank Chang, Jason Cong.
   [TopSort: A High-Performance Two-Phase Sorting Accelerator Optimized on HBM-based FPGAs].
   In FCCM, 2022.
-  [[PDF]](https://arxiv.org/pdf/2205.07991.pdf)
