@@ -16,10 +16,11 @@ You may need to download the Vitis_Accel github directory from [Xilinx Github](h
 | [benchmark](./benchmark) | This folder contains the random data generator. The generated benchmark will also be here. |
 | [cocotb_sim](./cocotb_sim/) | This folder contains the cocotb-based simulation files for fast simulation using Synopsys VCS. |
 | [constraints](./constraints) | This folder contains all the configuration and constraints files for HBM channel mapping and PnR process. |
-| [scripts](./scripts) | This folder contains the scripts to package the .xo for the kernel |
-| [src](./src) | This folder contains the SystemVerilog source code and the host code |
-| [Makefile](./Makefile) | Makefile for the project |
-| [xrt.ini](./xrt.ini) | Simulation configuration file |
+| [images](./images) | This folder contains the necessary images. |
+| [scripts](./scripts) | This folder contains the scripts to package the .xo for the kernel. |
+| [src](./src) | This folder contains the SystemVerilog source code and the host code. |
+| [Makefile](./Makefile) | Makefile for the project. |
+| [xrt.ini](./xrt.ini) | Simulation configuration file. |
 
 ## Testing
 
