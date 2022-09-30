@@ -1,5 +1,5 @@
 # TopSort
-This repository demonstrates TopSort, a high-performance two-phase sorting accelerator optimized for HBM-based FPGA, specifically, Xilinx Alveo U280.
+This repository demonstrates TopSort, a high-performance two-phase sorting accelerator optimized for HBM-based FPGA, specifically, Xilinx Alveo U280. TopSort achieves a state-of-art sorting performance of more than 15 GB/s when sorting up to 4 GB data.
 
 ## Prerequisities
 
