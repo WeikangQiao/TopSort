@@ -50,7 +50,10 @@ fsm_code_t  next_state;
 data_lt     in_data_0;      // Convert i_fifo_data_0 into local data type
 data_lt     in_data_1;      // Convert i_fifo_data_1 into local data type
 
-logic       key_comp;       // asserted if i_bundle_0 is less or equal than i_bunble_1
+logic       key_comp;       // asserted if i_bundle_0 is less than i_bunble_1
+logic       key_equal;      // asserted if i_bundle_0 is equal to i_bundle_1
+logic       key_sel = 0;    // keep track of which branch feeds data last time 
+                            // so we can rotate in a round-robin way for skewed data
 
 data_lt     mn_data_in;     // {data, last} input into the merge network
 logic       mn_data_valid;  // valid signal into the merge network
@@ -75,11 +78,13 @@ end: input_conv
 
 // Currently only compare the key
 // For satellite data, we may need to compare the whole data
-assign key_comp = in_data_0.data[VALUE_WIDTH +: KEY_WIDTH] <= in_data_1.data[VALUE_WIDTH +: KEY_WIDTH];
+assign key_comp = in_data_0.data[VALUE_WIDTH +: KEY_WIDTH] < in_data_1.data[VALUE_WIDTH +: KEY_WIDTH];
+assign key_equal = in_data_0.data[VALUE_WIDTH +: KEY_WIDTH] == in_data_1.data[VALUE_WIDTH +: KEY_WIDTH];
 
 // Finite state machine
 always_ff @(posedge i_clk) begin: curr_state_reg
     state <= next_state;
+    key_sel <= mn_data_sel;
 end: curr_state_reg
 
 always_comb begin: next_state_logic
@@ -88,7 +93,7 @@ always_comb begin: next_state_logic
     mn_data_in.data =   in_data_0.data  ;
     mn_data_in.last =   1'b0            ;
     mn_data_valid   =   1'b0            ;
-    mn_data_sel     =   1'b0            ;
+    mn_data_sel     =   key_sel         ;
     fifo_0_read     =   1'b0            ; 
     fifo_1_read     =   1'b0            ;      
 
@@ -120,7 +125,7 @@ always_comb begin: next_state_logic
             if (~i_fifo_full & i_fifo_data_0_vld & i_fifo_data_1_vld) begin
                 mn_data_in.last     =   1'b0;
                 mn_data_valid       =   1'b1;
-                if (key_comp) begin
+                if (key_comp || (key_equal && key_sel)) begin
                     mn_data_in.data =   in_data_0.data;
                     mn_data_sel     =   1'b0;
                     fifo_0_read     =   1'b1;
