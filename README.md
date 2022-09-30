@@ -67,7 +67,9 @@ We also need to uncomment line 439 in [test_merge_sort_complete.py](./cocotb_sim
 #factory = TestFactory(run_test_phase1)
 ```
 
-After simulation completes, you should see ![simulation results](./images/simulation.png) as shown below. There is also a *merge_sort_complete.vpd* file that dumps all the signal waveforms.
+After simulation completes, you should see the results as shown below ![simulation results](./images/simulation.png). 
+
+You may also refer to the *merge_sort_complete.vpd* file to see all the dumped signal waveforms.
 
 2. To simulate the second phase of TopSort: 
 We need to add the following line in [Makefile](./cocotb_sim/sim/Makefile):
